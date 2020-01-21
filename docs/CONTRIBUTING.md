@@ -6,23 +6,23 @@ The goal of this document is to hopefully fill in any gaps in knowledge for how 
 
 # Table of Contents
 
-- [Introduction](#introduction)
-- [Table of Contents](#table-of-contents)
-- [Getting started](#getting-started)
-- [Testing](#testing)
-- [How to submit changes](#how-to-submit-changes)
-- [How to report a bug](#how-to-report-a-bug)
-- [How to request an enhancement](#how-to-request-an-enhancement)
-- [Style Guide](#style-guide)
-- [Code of Conduct](#code-of-conduct)
-- [Where can I ask for help?](#where-can-i-ask-for-help)
+-   [Introduction](#introduction)
+-   [Table of Contents](#table-of-contents)
+-   [Getting started](#getting-started)
+-   [Testing](#testing)
+-   [How to submit changes](#how-to-submit-changes)
+-   [How to report a bug](#how-to-report-a-bug)
+-   [How to request an enhancement](#how-to-request-an-enhancement)
+-   [Style Guide](#style-guide)
+-   [Code of Conduct](#code-of-conduct)
+-   [Where can I ask for help?](#where-can-i-ask-for-help)
 
 # Getting started
 
 First thing you'll need to do is clone the project.
 
 ```bash
-git clone git@github.com:SMARTeacher/python-graphql-client.git
+git clone git@github.com:prodigyeducation/python-graphql-client.git
 ```
 
 After that you'll need to install the required python dependencies as well as development dependencies for linting the project.
@@ -53,13 +53,13 @@ make tests
 
 # How to report a bug
 
-1. Do a scan of the [issues](https://github.com/SMARTeacher/python-graphql-client/issues) on the github repository to see if someone else has already opened an issue similar to yours.
+1. Do a scan of the [issues](https://github.com/prodigyeducation/python-graphql-client/issues) on the github repository to see if someone else has already opened an issue similar to yours.
 2. Create an issue on github using the `Bug report` template.
 3. Fill out the issue template with relevant details.
 
 # How to request an enhancement
 
-1. Do a scan of the [issues](https://github.com/SMARTeacher/python-graphql-client/issues) on the github repository to see if someone else has already opened an issue similar to yours.
+1. Do a scan of the [issues](https://github.com/prodigyeducation/python-graphql-client/issues) on the github repository to see if someone else has already opened an issue similar to yours.
 2. Create an issue on github using the `Feature request` template.
 3. Fill out the issue template with relevant details.
 
