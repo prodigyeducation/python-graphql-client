@@ -1,11 +1,19 @@
 """Configuration for python project."""
 
+from os import path
+
 from setuptools import setup
+
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
     name="python_graphql_client",
-    version="0.1.0",
+    version="0.1.1",
     description="Python GraphQL Client",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -16,7 +24,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     keywords="api graphql client",
-    url="https://github.com/SMARTeacher/python-graphql-client",  # TODO change this
+    url="https://github.com/prodigyeducation/python-graphql-client",
     author="Justin Krinke",
     author_email="opensource@prodigygame.com",
     license="MIT",
