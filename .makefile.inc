@@ -1,0 +1,19 @@
+# Available colors
+RED    := $(shell tput -Txterm setaf 1)
+GREEN  := $(shell tput -Txterm setaf 2)
+YELLOW := $(shell tput -Txterm setaf 3)
+WHITE  := $(shell tput -Txterm setaf 7)
+RESET  := $(shell tput -Txterm sgr0)
+
+
+define HELP_SCRIPT
+  if ((/^```/ && $$p > 0) || /^```ascii/) { $$p++; next };
+  print $$_ if ($$p == 1);
+  if (/^([A-Za-z0-9_-]+[%]?)*:.*## (.*)/) {printf "${YELLOW}%-${TARGET_MAX_CHAR_NUM}s${GREEN}%s${RESET}\n", $$1, $$2 };
+  if (/^###?/) { printf "\n" }
+endef
+export HELP_SCRIPT
+
+define SHOW_IDENTITY
+@[ -f ./.makefile.identity.inc ] && cat ./.makefile.identity.inc; echo ''; echo '' || echo ''
+endef

@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+      - id: black
+        language_version: python3.7
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: ""
+    hooks:
+      - id: flake8
+        additional_dependencies: [flake8-docstrings]
+  - repo: local
+    hooks:
+      - id: test
+        name: test
+        entry: python -m unittest discover tests/
+        pass_filenames: false
+        language: system
+        types: [python]
