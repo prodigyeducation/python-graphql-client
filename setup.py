@@ -16,7 +16,7 @@ setup(
         "Programming Language :: Python :: 3.8",
     ],
     keywords="api graphql client",
-    url="https://github.com/SMARTeacher/python-graphql-client",  # TODO change this
+    url="https://github.com/prodigyeducation/python-graphql-client",
     author="Justin Krinke",
     author_email="opensource@prodigygame.com",
     license="MIT",
