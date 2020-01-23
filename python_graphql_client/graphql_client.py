@@ -25,18 +25,34 @@ class GraphqlClient:
 
         return json
 
-    def execute(self, query: str, variables: dict = None, operation_name: str = None):
+    def __request_headers(self, headers: dict = None) -> dict:
+        return {**self.headers, **headers} if headers else self.headers
+
+    def execute(
+        self,
+        query: str,
+        variables: dict = None,
+        operation_name: str = None,
+        headers: dict = None,
+    ):
         """Make synchronous request to graphQL server."""
         request_body = self.__request_body(
             query=query, variables=variables, operation_name=operation_name
         )
 
-        result = requests.post(self.endpoint, json=request_body, headers=self.headers)
+        result = requests.post(
+            self.endpoint, json=request_body, headers=self.__request_headers(headers),
+        )
+
         result.raise_for_status()
         return result.json()
 
     async def execute_async(
-        self, query: str, variables: dict = None, operation_name: str = None
+        self,
+        query: str,
+        variables: dict = None,
+        operation_name: str = None,
+        headers: dict = None,
     ):
         """Make asynchronous request to graphQL server."""
         request_body = self.__request_body(
@@ -45,6 +61,8 @@ class GraphqlClient:
 
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                self.endpoint, json=request_body, headers=self.headers
+                self.endpoint,
+                json=request_body,
+                headers=self.__request_headers(headers),
             ) as response:
                 return await response.json()
