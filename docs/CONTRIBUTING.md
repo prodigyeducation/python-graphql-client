@@ -28,7 +28,7 @@ git clone git@github.com:prodigyeducation/python-graphql-client.git
 After that you'll need to install the required python dependencies as well as development dependencies for linting the project.
 
 ```bash
-pip install -e .["dev"]
+pip install -e ."[dev]"
 ```
 
 Finally, you should make sure `pre-commit` has setup the git hooks on your machine by running the following command. This will run the automated checks every time you commit.

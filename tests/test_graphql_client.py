@@ -83,13 +83,21 @@ class TestGraphqlClientExecute(unittest.TestCase):
     @patch("python_graphql_client.graphql_client.requests.post")
     def test_execute_query_with_headers(self, post_mock):
         """Sends a graphql POST request with headers."""
-        headers = {"Content-Type": "application/json"}
-        client = GraphqlClient(endpoint="http://www.test-api.com/", headers=headers)
+        client = GraphqlClient(
+            endpoint="http://www.test-api.com/",
+            headers={"Content-Type": "application/json", "Existing": "123",},
+        )
         query = ""
-        client.execute(query)
+        client.execute(query=query, headers={"Existing": "456", "New": "foo"})
 
         post_mock.assert_called_once_with(
-            "http://www.test-api.com/", json={"query": query}, headers=headers
+            "http://www.test-api.com/",
+            json={"query": query},
+            headers={
+                "Content-Type": "application/json",
+                "Existing": "456",
+                "New": "foo",
+            },
         )
 
     @patch("python_graphql_client.graphql_client.requests.post")
@@ -176,14 +184,22 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
     async def test_execute_query_with_headers(self, mock_post):
         """Sends a graphql POST request with headers."""
         mock_post.return_value.__aenter__.return_value.json = CoroutineMock()
-        headers = {"Content-Type": "application/json"}
-        client = GraphqlClient(endpoint="http://www.test-api.com/", headers=headers)
+        client = GraphqlClient(
+            endpoint="http://www.test-api.com/",
+            headers={"Content-Type": "application/json", "Existing": "123",},
+        )
         query = ""
 
-        await client.execute_async(query)
+        await client.execute_async("", headers={"Existing": "456", "New": "foo"})
 
         mock_post.assert_called_once_with(
-            "http://www.test-api.com/", json={"query": query}, headers=headers
+            "http://www.test-api.com/",
+            json={"query": query},
+            headers={
+                "Content-Type": "application/json",
+                "Existing": "456",
+                "New": "foo",
+            },
         )
 
     @unittest_run_loop
