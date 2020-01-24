@@ -88,14 +88,14 @@ class TestGraphqlClientExecute(unittest.TestCase):
             headers={"Content-Type": "application/json", "Existing": "123",},
         )
         query = ""
-        client.execute(query=query, headers={"Existing": "123", "New": "foo"})
+        client.execute(query=query, headers={"Existing": "456", "New": "foo"})
 
         post_mock.assert_called_once_with(
             "http://www.test-api.com/",
             json={"query": query},
             headers={
                 "Content-Type": "application/json",
-                "Existing": "123",
+                "Existing": "456",
                 "New": "foo",
             },
         )
@@ -190,14 +190,14 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
         )
         query = ""
 
-        await client.execute_async("", headers={"Existing": "123", "New": "foo"})
+        await client.execute_async("", headers={"Existing": "456", "New": "foo"})
 
         mock_post.assert_called_once_with(
             "http://www.test-api.com/",
             json={"query": query},
             headers={
                 "Content-Type": "application/json",
-                "Existing": "123",
+                "Existing": "456",
                 "New": "foo",
             },
         )
