@@ -18,6 +18,11 @@ jobs:
           python -m pip install --upgrade pip
           # Install all necessary packages, including dev dependencies.
           pip install -e ."[dev]"
+      - name: Check format with black
+        run: |
+          # Check all python files to see if black would format them.
+          # If black would format them, then the check fails.
+          black --check **/*.py
       - name: Lint with flake8
         run: |
           # exit-zero treats all errors as warnings.
@@ -25,8 +30,3 @@ jobs:
       - name: Test with unittest
         run: |
           python -m unittest discover -s tests/
-      - name: Check format with black
-        run: |
-          # Check all python files to see if black would format them.
-          # If black would format them, then the check fails.
-          black --check **/*.py
