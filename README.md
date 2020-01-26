@@ -1,4 +1,6 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![Python CI Checks](https://github.com/prodigyeducation/python-graphql-client/workflows/Python%20CI%20Checks/badge.svg)
+![Upload Python Package](https://github.com/prodigyeducation/python-graphql-client/workflows/Upload%20Python%20Package/badge.svg)
 
 # Python GraphQL Client
 
