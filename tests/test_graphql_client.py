@@ -85,7 +85,7 @@ class TestGraphqlClientExecute(unittest.TestCase):
         """Sends a graphql POST request with headers."""
         client = GraphqlClient(
             endpoint="http://www.test-api.com/",
-            headers={"Content-Type": "application/json", "Existing": "123",},
+            headers={"Content-Type": "application/json", "Existing": "123"},
         )
         query = ""
         client.execute(query=query, headers={"Existing": "456", "New": "foo"})
@@ -186,7 +186,7 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
         mock_post.return_value.__aenter__.return_value.json = CoroutineMock()
         client = GraphqlClient(
             endpoint="http://www.test-api.com/",
-            headers={"Content-Type": "application/json", "Existing": "123",},
+            headers={"Content-Type": "application/json", "Existing": "123"},
         )
         query = ""
 
