@@ -12,3 +12,11 @@ help: ##  List all available commands.
 .PHONY: tests
 tests: ##  Run the unit tests against the project.
 	python -m unittest discover -s tests/
+
+.PHONY: gen-changelog
+gen-changelog: ##  Generate CHANGELOG.md file.
+	gitchangelog > CHANGELOG.md
+
+.PHONY: gen-changelog-delta
+gen-changelog-delta: ##  Add change log delta to CHANGELOG.md
+	gitchangelog $(first-tag)..$(last-tag) | cat - CHANGELOG.md > temp && mv temp CHANGELOG.md
