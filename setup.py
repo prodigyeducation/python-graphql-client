@@ -31,6 +31,14 @@ setup(
     packages=["python_graphql_client"],
     install_requires=["aiohttp==3.6.2", "requests==2.22.0", "asynctest==0.13.0"],
     extras_require={
-        "dev": ["pre-commit", "black", "flake8", "flake8-black", "flake8-isort"]
+        "dev": [
+            "pre-commit",
+            "black",
+            "flake8",
+            "flake8-black",
+            "flake8-isort",
+            "gitchangelog",
+            "pystache",
+        ]
     },
 )
