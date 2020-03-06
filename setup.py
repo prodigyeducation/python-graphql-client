@@ -29,7 +29,7 @@ setup(
     author_email="opensource@prodigygame.com",
     license="MIT",
     packages=["python_graphql_client"],
-    install_requires=["aiohttp==3.6.2", "requests==2.22.0", "asynctest==0.13.0"],
+    install_requires=["aiohttp==3.6.2", "requests==2.22.0"],
     extras_require={
         "dev": [
             "pre-commit",
