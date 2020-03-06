@@ -1,17 +1,15 @@
 """Tests for main graphql client module."""
 
-import unittest
-from unittest.mock import MagicMock
+from unittest import TestCase, IsolatedAsyncioTestCase
+from unittest.mock import patch, MagicMock, AsyncMock
 
 from aiohttp import web
-from aiohttp.test_utils import AioHTTPTestCase, unittest_run_loop
-from asynctest import CoroutineMock, patch
 from requests.exceptions import HTTPError
 
 from python_graphql_client import GraphqlClient
 
 
-class TestGraphqlClientConstructor(unittest.TestCase):
+class TestGraphqlClientConstructor(TestCase):
     """Test cases for the __init__ function in the client class."""
 
     def test_init_client_no_endpoint(self):
@@ -34,7 +32,7 @@ class TestGraphqlClientConstructor(unittest.TestCase):
         self.assertEqual(client.headers, headers)
 
 
-class TestGraphqlClientExecute(unittest.TestCase):
+class TestGraphqlClientExecute(TestCase):
     """Test cases for the synchronous graphql request function."""
 
     @patch("python_graphql_client.graphql_client.requests")
@@ -127,26 +125,17 @@ class TestGraphqlClientExecute(unittest.TestCase):
         )
 
 
-class AsyncMock(MagicMock):
-    """Utility class for mocking coroutines / async code."""
-
-    async def __call__(self, *args, **kwargs):
-        """Pass arguments through in callable function."""
-        return super().__call__(*args, **kwargs)
-
-
-class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
+class TestGraphqlClientExecuteAsync(IsolatedAsyncioTestCase):
     """Test cases for the asynchronous graphQL request function."""
 
     async def get_application(self):
         """Override base class method to properly use async tests."""
         return web.Application()
 
-    @unittest_run_loop
     @patch("aiohttp.ClientSession.post")
     async def test_execute_basic_query(self, mock_post):
         """Sends a graphql POST request to an endpoint."""
-        mock_post.return_value.__aenter__.return_value.json = CoroutineMock()
+        mock_post.return_value.__aenter__.return_value.json = AsyncMock()
         client = GraphqlClient(endpoint="http://www.test-api.com/")
         query = """
         {
@@ -162,11 +151,10 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
             "http://www.test-api.com/", json={"query": query}, headers={}
         )
 
-    @unittest_run_loop
     @patch("aiohttp.ClientSession.post")
     async def test_execute_query_with_variables(self, mock_post):
         """Sends a graphql POST request with variables."""
-        mock_post.return_value.__aenter__.return_value.json = CoroutineMock()
+        mock_post.return_value.__aenter__.return_value.json = AsyncMock()
         client = GraphqlClient(endpoint="http://www.test-api.com/")
         query = ""
         variables = {"id": 123}
@@ -179,11 +167,10 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
             headers={},
         )
 
-    @unittest_run_loop
     @patch("aiohttp.ClientSession.post")
     async def test_execute_query_with_headers(self, mock_post):
         """Sends a graphql POST request with headers."""
-        mock_post.return_value.__aenter__.return_value.json = CoroutineMock()
+        mock_post.return_value.__aenter__.return_value.json = AsyncMock()
         client = GraphqlClient(
             endpoint="http://www.test-api.com/",
             headers={"Content-Type": "application/json", "Existing": "123"},
@@ -202,11 +189,10 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
             },
         )
 
-    @unittest_run_loop
     @patch("aiohttp.ClientSession.post")
     async def test_execute_query_with_operation_name(self, mock_post):
         """Sends a graphql POST request with the operationName key set."""
-        mock_post.return_value.__aenter__.return_value.json = CoroutineMock()
+        mock_post.return_value.__aenter__.return_value.json = AsyncMock()
         client = GraphqlClient(endpoint="http://www.test-api.com/")
         query = """
             query firstQuery {
@@ -230,7 +216,3 @@ class TestGraphqlClientExecuteAsync(AioHTTPTestCase):
             json={"query": query, "operationName": operation_name},
             headers={},
         )
-
-
-if __name__ == "__main__":
-    unittest.main()
