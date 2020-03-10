@@ -35,6 +35,7 @@ setup(
             "pre-commit",
             "black",
             "flake8",
+            "flake8-docstrings",
             "flake8-black",
             "flake8-isort",
             "gitchangelog",
