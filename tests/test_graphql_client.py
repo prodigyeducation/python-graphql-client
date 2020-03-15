@@ -1,7 +1,7 @@
 """Tests for main graphql client module."""
 
-from unittest import TestCase, IsolatedAsyncioTestCase
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest import IsolatedAsyncioTestCase, TestCase
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from aiohttp import web
 from requests.exceptions import HTTPError
