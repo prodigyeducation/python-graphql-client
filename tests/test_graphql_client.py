@@ -1,7 +1,7 @@
 """Tests for main graphql client module."""
 
 from unittest import IsolatedAsyncioTestCase, TestCase
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock, call, patch
 
 from aiohttp import web
 from requests.exceptions import HTTPError
@@ -215,4 +215,33 @@ class TestGraphqlClientExecuteAsync(IsolatedAsyncioTestCase):
             "http://www.test-api.com/",
             json={"query": query, "operationName": operation_name},
             headers={},
+        )
+
+
+class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
+    @patch("websockets.connect")
+    async def test_subscribe(self, mock_connect):
+        mock_websocket = mock_connect.return_value.__aenter__.return_value
+        mock_websocket.send = AsyncMock()
+        mock_websocket.__aiter__.return_value = [
+            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "test1"}}}',
+            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "test2"}}}',
+        ]
+
+        client = GraphqlClient(endpoint="ws://www.test-api.com/graphql")
+        query = """
+            subscription onMessageAdded {
+                messageAdded
+            }
+        """
+
+        mock_handle = MagicMock()
+
+        await client.subscribe(query=query, handle=mock_handle)
+
+        mock_handle.assert_has_calls(
+            [
+                call({"data": {"messageAdded": "test1"}}),
+                call({"data": {"messageAdded": "test2"}}),
+            ]
         )
