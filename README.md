@@ -16,6 +16,8 @@ pip install python-graphql-client
 
 ## Usage
 
+- Query/Mutation
+
 ```python
 from python_graphql_client import GraphqlClient
 
@@ -43,6 +45,31 @@ import asyncio
 
 data = asyncio.run(client.execute_async(query=query, variables=variables))
 print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
+```
+
+- Subscription
+
+```python
+from python_graphql_client import GraphqlClient
+
+# Instantiate the client with a websocket endpoint.
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql")
+
+# Create the query string and variables required for the request.
+query = """
+    subscription onMessageAdded {
+        messageAdded
+    }
+"""
+
+# Asynchronous request
+import asyncio
+
+asyncio.run(client.subscribe(query=query, handle=print))
+# => {'data': {'messageAdded': 'Error omnis quis.'}}
+# => {'data': {'messageAdded': 'Enim asperiores omnis.'}}
+# => {'data': {'messageAdded': 'Unde ullam consequatur quam eius vel.'}}
+# ...
 ```
 
 ## Roadmap
