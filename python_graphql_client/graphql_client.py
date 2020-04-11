@@ -1,7 +1,10 @@
 """Module containing graphQL client."""
+import json
+from typing import Callable
 
 import aiohttp
 import requests
+import websockets
 
 
 class GraphqlClient:
@@ -66,3 +69,27 @@ class GraphqlClient:
                 headers=self.__request_headers(headers),
             ) as response:
                 return await response.json()
+
+    async def subscribe(
+        self,
+        query: str,
+        handle: Callable,
+        variables: dict = None,
+        operation_name: str = None,
+        headers: dict = None,
+    ):
+        """Make asynchronous request for GraphQL subscription."""
+        request_body = self.__request_body(
+            query=query, variables=variables, operation_name=operation_name
+        )
+        request_message = json.dumps(
+            {"type": "start", "id": "1", "payload": request_body}
+        )
+
+        async with websockets.connect(
+            self.endpoint, subprotocols=["graphql-ws"]
+        ) as websocket:
+            await websocket.send(request_message)
+            async for response_message in websocket:
+                response_body = json.loads(response_message)
+                handle(response_body["payload"])
