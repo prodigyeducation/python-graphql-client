@@ -219,13 +219,16 @@ class TestGraphqlClientExecuteAsync(IsolatedAsyncioTestCase):
 
 
 class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
+    """Test cases for subscribing GraphQL subscriptions."""
+
     @patch("websockets.connect")
     async def test_subscribe(self, mock_connect):
+        """Subsribe a GraphQL subscription."""
         mock_websocket = mock_connect.return_value.__aenter__.return_value
         mock_websocket.send = AsyncMock()
         mock_websocket.__aiter__.return_value = [
-            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "test1"}}}',
-            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "test2"}}}',
+            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "one"}}}',
+            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "two"}}}',
         ]
 
         client = GraphqlClient(endpoint="ws://www.test-api.com/graphql")
@@ -241,7 +244,7 @@ class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
 
         mock_handle.assert_has_calls(
             [
-                call({"data": {"messageAdded": "test1"}}),
-                call({"data": {"messageAdded": "test2"}}),
+                call({"data": {"messageAdded": "one"}}),
+                call({"data": {"messageAdded": "two"}}),
             ]
         )
