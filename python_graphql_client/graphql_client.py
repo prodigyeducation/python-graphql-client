@@ -1,10 +1,13 @@
 """Module containing graphQL client."""
 import json
+import logging
 from typing import Callable
 
 import aiohttp
 import requests
 import websockets
+
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(message)s")
 
 
 class GraphqlClient:
@@ -79,6 +82,8 @@ class GraphqlClient:
         headers: dict = None,
     ):
         """Make asynchronous request for GraphQL subscription."""
+        connection_init_message = json.dumps({"type": "connection_init", "payload": {}})
+
         request_body = self.__request_body(
             query=query, variables=variables, operation_name=operation_name
         )
@@ -89,7 +94,11 @@ class GraphqlClient:
         async with websockets.connect(
             self.endpoint, subprotocols=["graphql-ws"]
         ) as websocket:
+            await websocket.send(connection_init_message)
             await websocket.send(request_message)
             async for response_message in websocket:
                 response_body = json.loads(response_message)
-                handle(response_body["payload"])
+                if response_body["type"] == "connection_ack":
+                    logging.info("the server accepted the connection")
+                else:
+                    handle(response_body["payload"])
