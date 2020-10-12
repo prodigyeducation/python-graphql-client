@@ -47,7 +47,9 @@ class GraphqlClient:
         )
 
         result = requests.post(
-            self.endpoint, json=request_body, headers=self.__request_headers(headers),
+            self.endpoint,
+            json=request_body,
+            headers=self.__request_headers(headers),
         )
 
         result.raise_for_status()
