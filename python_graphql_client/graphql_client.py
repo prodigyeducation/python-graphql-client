@@ -92,7 +92,9 @@ class GraphqlClient:
         )
 
         async with websockets.connect(
-            self.endpoint, subprotocols=["graphql-ws"]
+            self.endpoint,
+            subprotocols=["graphql-ws"],
+            extra_headers=self.__request_headers(headers)
         ) as websocket:
             await websocket.send(connection_init_message)
             await websocket.send(request_message)
@@ -100,5 +102,7 @@ class GraphqlClient:
                 response_body = json.loads(response_message)
                 if response_body["type"] == "connection_ack":
                     logging.info("the server accepted the connection")
+                elif response_body["type"] == "ka":
+                    logging.info("the server sent a keep alive message")
                 else:
                     handle(response_body["payload"])
