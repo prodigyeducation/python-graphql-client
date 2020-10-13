@@ -248,3 +248,62 @@ class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
                 call({"data": {"messageAdded": "two"}}),
             ]
         )
+
+    @patch("logging.info")
+    @patch("websockets.connect")
+    async def test_does_not_crash_with_keep_alive(self, mock_connect, mock_info):
+        """Subsribe a GraphQL subscription."""
+        mock_websocket = mock_connect.return_value.__aenter__.return_value
+        mock_websocket.send = AsyncMock()
+        mock_websocket.__aiter__.return_value = [
+            '{"type": "ka"}',
+        ]
+
+        client = GraphqlClient(endpoint="ws://www.test-api.com/graphql")
+        query = """
+            subscription onMessageAdded {
+                messageAdded
+            }
+        """
+
+        await client.subscribe(query=query, handle=MagicMock())
+
+        mock_info.assert_has_calls([call("the server sent a keep alive message")])
+
+    @patch("websockets.connect")
+    async def test_headers_passed_to_websocket_connect(self, mock_connect):
+        """Subsribe a GraphQL subscription."""
+        mock_websocket = mock_connect.return_value.__aenter__.return_value
+        mock_websocket.send = AsyncMock()
+        mock_websocket.__aiter__.return_value = [
+            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "one"}}}',
+        ]
+
+        expected_endpoint = "ws://www.test-api.com/graphql"
+        client = GraphqlClient(endpoint=expected_endpoint)
+
+        query = """
+            subscription onMessageAdded {
+                messageAdded
+            }
+        """
+
+        mock_handle = MagicMock()
+
+        expected_headers = {"some": "header"}
+
+        await client.subscribe(
+            query=query, handle=mock_handle, headers=expected_headers
+        )
+
+        mock_connect.assert_called_with(
+            expected_endpoint,
+            subprotocols=["graphql-ws"],
+            extra_headers=expected_headers,
+        )
+
+        mock_handle.assert_has_calls(
+            [
+                call({"data": {"messageAdded": "one"}}),
+            ]
+        )
