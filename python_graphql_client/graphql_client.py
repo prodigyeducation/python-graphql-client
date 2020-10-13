@@ -96,7 +96,7 @@ class GraphqlClient:
         async with websockets.connect(
             self.endpoint,
             subprotocols=["graphql-ws"],
-            extra_headers=self.__request_headers(headers)
+            extra_headers=self.__request_headers(headers),
         ) as websocket:
             await websocket.send(connection_init_message)
             await websocket.send(request_message)
