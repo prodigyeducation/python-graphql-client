@@ -104,7 +104,8 @@ class TestGraphqlClientExecute(TestCase):
         """Sends a graphql POST request with headers."""
         auth = HTTPBasicAuth("fake@example.com", "not_a_real_password")
         client = GraphqlClient(
-            endpoint="http://www.test-api.com/", options={"auth": auth},
+            endpoint="http://www.test-api.com/",
+            options={"auth": auth},
         )
         query = ""
         client.execute(query=query, options={"verify": False})

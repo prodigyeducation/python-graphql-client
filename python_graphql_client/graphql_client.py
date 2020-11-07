@@ -69,7 +69,9 @@ class GraphqlClient:
 
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                self.endpoint, json=request_body, headers={**self.headers, **headers},
+                self.endpoint,
+                json=request_body,
+                headers={**self.headers, **headers},
             ) as response:
                 return await response.json()
 
