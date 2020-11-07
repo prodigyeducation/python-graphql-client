@@ -72,6 +72,37 @@ asyncio.run(client.subscribe(query=query, handle=print))
 # ...
 ```
 
+## Advanced Usage
+
+### Disable SSL verification
+
+Set `options` to `{"verify": False}` ether when instantiating the `GraphqlClient` class.
+
+```py
+from python_graphql_client import GraphqlClient
+
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", options={"verify": False})
+```
+
+Alternatively, you can set it when calling the `execute` method.
+
+```py
+from python_graphql_client import GraphqlClient
+
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql"
+client.execute(query="<Your Query>", options={"verify": False}))
+```
+
+### Custom Authentication
+
+```py
+from requests.auth import HTTPBasicAuth
+from python_graphql_client import GraphqlClient
+
+auth = HTTPBasicAuth('fake@example.com', 'not_a_real_password')
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", auth=auth)
+```
+
 ## Roadmap
 
 To start we'll try and use a Github project board for listing current work and updating priorities of upcoming features.
