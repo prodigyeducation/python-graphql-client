@@ -1,7 +1,7 @@
 """Module containing graphQL client."""
 import json
 import logging
-from typing import Callable
+from typing import Any, Callable
 
 import aiohttp
 import requests
@@ -13,11 +13,11 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(message)s")
 class GraphqlClient:
     """Class which represents the interface to make graphQL requests through."""
 
-    def __init__(self, endpoint: str, headers: dict = {}, options: dict = {}):
+    def __init__(self, endpoint: str, headers: dict = {}, **kwargs: Any):
         """Insantiate the client."""
         self.endpoint = endpoint
         self.headers = headers
-        self.options = options
+        self.options = kwargs
 
     def __request_body(
         self, query: str, variables: dict = None, operation_name: str = None
@@ -38,7 +38,7 @@ class GraphqlClient:
         variables: dict = None,
         operation_name: str = None,
         headers: dict = {},
-        options: dict = {},
+        **kwargs: Any,
     ):
         """Make synchronous request to graphQL server."""
         request_body = self.__request_body(
@@ -49,7 +49,7 @@ class GraphqlClient:
             self.endpoint,
             json=request_body,
             headers={**self.headers, **headers},
-            **{**self.options, **options},
+            **{**self.options, **kwargs},
         )
 
         result.raise_for_status()

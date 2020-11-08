@@ -105,10 +105,10 @@ class TestGraphqlClientExecute(TestCase):
         auth = HTTPBasicAuth("fake@example.com", "not_a_real_password")
         client = GraphqlClient(
             endpoint="http://www.test-api.com/",
-            options={"auth": auth},
+            auth=auth,
         )
         query = ""
-        client.execute(query=query, options={"verify": False})
+        client.execute(query=query, verify=False)
 
         post_mock.assert_called_once_with(
             "http://www.test-api.com/",

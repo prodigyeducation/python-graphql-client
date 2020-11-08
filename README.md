@@ -81,7 +81,7 @@ Set `options` to `{"verify": False}` ether when instantiating the `GraphqlClient
 ```py
 from python_graphql_client import GraphqlClient
 
-client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", options={"verify": False})
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", verify=False)
 ```
 
 Alternatively, you can set it when calling the `execute` method.
@@ -90,7 +90,7 @@ Alternatively, you can set it when calling the `execute` method.
 from python_graphql_client import GraphqlClient
 
 client = GraphqlClient(endpoint="wss://www.your-api.com/graphql"
-client.execute(query="<Your Query>", options={"verify": False}))
+client.execute(query="<Your Query>", verify=False))
 ```
 
 ### Custom Authentication
