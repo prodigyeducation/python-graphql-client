@@ -90,7 +90,7 @@ Alternatively, you can set it when calling the `execute` method.
 from python_graphql_client import GraphqlClient
 
 client = GraphqlClient(endpoint="wss://www.your-api.com/graphql"
-client.execute(query="<Your Query>", verify=False))
+client.execute(query="<Your Query>", verify=False)
 ```
 
 ### Custom Authentication
