@@ -18,7 +18,7 @@ pip install python-graphql-client
 
 - Query/Mutation
 
-```python
+```py
 from python_graphql_client import GraphqlClient
 
 # Instantiate the client with an endpoint.
@@ -49,7 +49,7 @@ print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
 
 - Subscription
 
-```python
+```py
 from python_graphql_client import GraphqlClient
 
 # Instantiate the client with a websocket endpoint.
