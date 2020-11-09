@@ -10,7 +10,7 @@ with open(path.join(this_directory, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="python_graphql_client",
-    version="0.3.1",
+    version="0.3.2",
     description="Python GraphQL Client",
     long_description=long_description,
     long_description_content_type="text/markdown",
