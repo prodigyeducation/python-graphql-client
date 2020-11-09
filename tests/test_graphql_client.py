@@ -4,6 +4,7 @@ from unittest import IsolatedAsyncioTestCase, TestCase
 from unittest.mock import AsyncMock, MagicMock, call, patch
 
 from aiohttp import web
+from requests.auth import HTTPBasicAuth
 from requests.exceptions import HTTPError
 
 from python_graphql_client import GraphqlClient
@@ -96,6 +97,25 @@ class TestGraphqlClientExecute(TestCase):
                 "Existing": "456",
                 "New": "foo",
             },
+        )
+
+    @patch("python_graphql_client.graphql_client.requests.post")
+    def test_execute_query_with_options(self, post_mock):
+        """Sends a graphql POST request with headers."""
+        auth = HTTPBasicAuth("fake@example.com", "not_a_real_password")
+        client = GraphqlClient(
+            endpoint="http://www.test-api.com/",
+            auth=auth,
+        )
+        query = ""
+        client.execute(query=query, verify=False)
+
+        post_mock.assert_called_once_with(
+            "http://www.test-api.com/",
+            json={"query": query},
+            headers={},
+            auth=HTTPBasicAuth("fake@example.com", "not_a_real_password"),
+            verify=False,
         )
 
     @patch("python_graphql_client.graphql_client.requests.post")
@@ -302,8 +322,4 @@ class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
             extra_headers=expected_headers,
         )
 
-        mock_handle.assert_has_calls(
-            [
-                call({"data": {"messageAdded": "one"}}),
-            ]
-        )
+        mock_handle.assert_has_calls([call({"data": {"messageAdded": "one"}})])

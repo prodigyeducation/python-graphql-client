@@ -18,7 +18,7 @@ pip install python-graphql-client
 
 - Query/Mutation
 
-```python
+```py
 from python_graphql_client import GraphqlClient
 
 # Instantiate the client with an endpoint.
@@ -49,7 +49,7 @@ print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
 
 - Subscription
 
-```python
+```py
 from python_graphql_client import GraphqlClient
 
 # Instantiate the client with a websocket endpoint.
@@ -70,6 +70,37 @@ asyncio.run(client.subscribe(query=query, handle=print))
 # => {'data': {'messageAdded': 'Enim asperiores omnis.'}}
 # => {'data': {'messageAdded': 'Unde ullam consequatur quam eius vel.'}}
 # ...
+```
+
+## Advanced Usage
+
+### Disable SSL verification
+
+Set the keyword argument `verify=False` ether when instantiating the `GraphqlClient` class.
+
+```py
+from python_graphql_client import GraphqlClient
+
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", verify=False)
+```
+
+Alternatively, you can set it when calling the `execute` method.
+
+```py
+from python_graphql_client import GraphqlClient
+
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql"
+client.execute(query="<Your Query>", verify=False)
+```
+
+### Custom Authentication
+
+```py
+from requests.auth import HTTPBasicAuth
+from python_graphql_client import GraphqlClient
+
+auth = HTTPBasicAuth('fake@example.com', 'not_a_real_password')
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", auth=auth)
 ```
 
 ## Roadmap
