@@ -76,7 +76,7 @@ asyncio.run(client.subscribe(query=query, handle=print))
 
 ### Disable SSL verification
 
-Set `options` to `{"verify": False}` ether when instantiating the `GraphqlClient` class.
+Set the keyword argument `verify=False` ether when instantiating the `GraphqlClient` class.
 
 ```py
 from python_graphql_client import GraphqlClient
