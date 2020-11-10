@@ -1,47 +1,36 @@
-## (unreleased)
+## v0.4.0
 
-### Fix
+- Support Advanced Usages #33
 
-* Make github action name useful. [Lennox Stevenson]
+## v0.3.1
 
-* Pypi link to new public repository. [Lennox Stevenson]
+- Subscription headers #30
+- Release v0.3.1 #31
 
-### Other
+## v0.3.0
 
-* Bump the version to 0.2.0. [Dale Seo]
+- Github Actions status badges 🏅 documentation #15
+- Bug/fix black flake8 conflict #17
+- new: dev: add gitchangelog to generate change log #19
+- feat: add pull_request as trigger for ci checks #20
+- Rewrite async tests without 3rd party library enhancement #21
+- Fix/flake8 consistent checks bug chore #22
+- GraphQL Subscriptions Support enhancement #23
+- Bump the version to 0.3.0 #24
 
-* Chore: address feedback. [Lennox Stevenson]
+## v0.2.0
 
-  Rename the GitHub action file to be more clear on its intention.
-  Change the order of the linter checks to align with the order used in the pre commit config file.
+- feat: create pypi publish github action chore #8
+- Allow overriding headers when making requests #10
+- feat: create config for linter checks #11
+- Bump the version to 0.2.0 #13
 
-* Feat: create config for linter checks. [Lennox Stevenson]
+## v0.1.1
 
-* Fix the unit tests to be clear. [Dale Seo]
+- Fix/setup fields #1
+- Link to new public repository on contributing guidelines #2
+- Add the Black label 🎖to show our style 💅 #3
 
-* Fix the command to install dependencies including dev dependencies. [Dale Seo]
+## v0.1.0
 
-* Allow overriding headers when making requests. [Dale Seo]
-
-* Chore: add name to checkout step. [Lennox Stevenson]
-
-* Feat: create pypi publish github action. [Lennox Stevenson]
-
-* Chore: bump version. [Lennox Stevenson]
-
-* Feat: create project description from README. [Lennox Stevenson]
-
-* Add the Black label to show our style. [Dale Seo]
-
-* Link to new public repository in CONTRIBUTING.md. [Dale Seo]
-
-
-## (unreleased)
-
-### Other
-
-* Feat: initial commit. [Lennox Stevenson]
-
-  To be clear, this work was not all done in a single commit. That would be insane. @xkludge, @DaleSeo, and @mattbullock were all part of the work to create this project and should get kudos as well.
-
-
+- First version of the package 🎉
