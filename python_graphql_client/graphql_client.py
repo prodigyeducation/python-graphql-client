@@ -82,9 +82,10 @@ class GraphqlClient:
         variables: dict = None,
         operation_name: str = None,
         headers: dict = {},
+        init_payload: dict = {},
     ):
         """Make asynchronous request for GraphQL subscription."""
-        connection_init_message = json.dumps({"type": "connection_init", "payload": {}})
+        connection_init_message = json.dumps({"type": "connection_init", "payload": init_payload})
 
         request_body = self.__request_body(
             query=query, variables=variables, operation_name=operation_name
