@@ -1,3 +1,9 @@
+## v0.4.1
+
+- Bumping Version for Aiohttp #38
+- CI runs pre-commit #37
+- Add ability to override init_payload for subscriptions. #36
+
 ## v0.4.0
 
 - Support Advanced Usages #33
