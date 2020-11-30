@@ -323,3 +323,40 @@ class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
         )
 
         mock_handle.assert_has_calls([call({"data": {"messageAdded": "one"}})])
+
+    @patch("websockets.connect")
+    async def test_init_payload_passed_in_init_message(self, mock_connect):
+        """Subsribe a GraphQL subscription."""
+        mock_websocket = mock_connect.return_value.__aenter__.return_value
+        mock_websocket.send = AsyncMock()
+        mock_websocket.__aiter__.return_value = [
+            '{"type": "connection_init", "payload": '
+            '{"init": "this is the init_payload"}}',
+            '{"type": "data", "id": "1", "payload": {"data": {"messageAdded": "one"}}}',
+        ]
+        expected_endpoint = "ws://www.test-api.com/graphql"
+        client = GraphqlClient(endpoint=expected_endpoint)
+
+        query = """
+            subscription onMessageAdded {
+                messageAdded
+            }
+        """
+        init_payload = '{"init": "this is the init_payload"}'
+
+        mock_handle = MagicMock()
+
+        await client.subscribe(
+            query=query, handle=mock_handle, init_payload=init_payload
+        )
+
+        mock_connect.assert_called_with(
+            expected_endpoint, subprotocols=["graphql-ws"], extra_headers={}
+        )
+
+        mock_handle.assert_has_calls(
+            [
+                call({"init": "this is the init_payload"}),
+                call({"data": {"messageAdded": "one"}}),
+            ]
+        )
