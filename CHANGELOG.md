@@ -1,3 +1,8 @@
+## v0.4.1
+
+- Bumping Version for Aiohttp #38
+- CI runs pre-commit #37
+
 ## v0.4.0
 
 - Support Advanced Usages #33
