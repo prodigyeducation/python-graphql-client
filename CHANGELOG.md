@@ -1,3 +1,6 @@
+## v0.4.2
+- chore(deps): reduce strictness of dependencies #41
+
 ## v0.4.1
 
 - Bumping Version for Aiohttp #38
