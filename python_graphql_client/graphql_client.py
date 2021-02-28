@@ -7,8 +7,6 @@ import aiohttp
 import requests
 import websockets
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(message)s")
-
 
 class GraphqlClient:
     """Class which represents the interface to make graphQL requests through."""
