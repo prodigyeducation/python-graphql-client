@@ -269,9 +269,9 @@ class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
             ]
         )
 
-    @patch("logging.info")
+    @patch("logging.getLogger")
     @patch("websockets.connect")
-    async def test_does_not_crash_with_keep_alive(self, mock_connect, mock_info):
+    async def test_does_not_crash_with_keep_alive(self, mock_connect, mock_get_logger):
         """Subsribe a GraphQL subscription."""
         mock_websocket = mock_connect.return_value.__aenter__.return_value
         mock_websocket.send = AsyncMock()
@@ -288,7 +288,9 @@ class TestGraphqlClientSubscriptions(IsolatedAsyncioTestCase):
 
         await client.subscribe(query=query, handle=MagicMock())
 
-        mock_info.assert_has_calls([call("the server sent a keep alive message")])
+        mock_get_logger.return_value.info.assert_has_calls(
+            [call("the server sent a keep alive message")]
+        )
 
     @patch("websockets.connect")
     async def test_headers_passed_to_websocket_connect(self, mock_connect):

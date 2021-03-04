@@ -7,14 +7,13 @@ import aiohttp
 import requests
 import websockets
 
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(message)s")
-
 
 class GraphqlClient:
     """Class which represents the interface to make graphQL requests through."""
 
     def __init__(self, endpoint: str, headers: dict = {}, **kwargs: Any):
         """Insantiate the client."""
+        self.logger = logging.getLogger(__name__)
         self.endpoint = endpoint
         self.headers = headers
         self.options = kwargs
@@ -106,8 +105,8 @@ class GraphqlClient:
             async for response_message in websocket:
                 response_body = json.loads(response_message)
                 if response_body["type"] == "connection_ack":
-                    logging.info("the server accepted the connection")
+                    self.logger.info("the server accepted the connection")
                 elif response_body["type"] == "ka":
-                    logging.info("the server sent a keep alive message")
+                    self.logger.info("the server sent a keep alive message")
                 else:
                     handle(response_body["payload"])
