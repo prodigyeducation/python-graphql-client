@@ -1,4 +1,9 @@
+## v0.4.3
+
+- Stoping Using Root Logger with One-off Logging Setup #44
+
 ## v0.4.2
+
 - chore(deps): reduce strictness of dependencies #41
 
 ## v0.4.1
