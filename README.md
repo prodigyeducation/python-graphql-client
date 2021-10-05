@@ -16,7 +16,7 @@ pip install python-graphql-client
 
 ## Usage
 
-- Query/Mutation
+### Queries & Mutations
 
 ```py
 from python_graphql_client import GraphqlClient
@@ -47,7 +47,7 @@ data = asyncio.run(client.execute_async(query=query, variables=variables))
 print(data)  # => {'data': {'country': {'code': 'CA', 'name': 'Canada'}}}
 ```
 
-- Subscription
+### Subscriptions
 
 ```py
 from python_graphql_client import GraphqlClient
@@ -101,6 +101,14 @@ from python_graphql_client import GraphqlClient
 
 auth = HTTPBasicAuth('fake@example.com', 'not_a_real_password')
 client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", auth=auth)
+```
+
+### Custom Headers
+```py
+from python_graphql_client import GraphqlClient
+
+headers = { "Authorization": "Token SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV" }
+client = GraphqlClient(endpoint="wss://www.your-api.com/graphql", headers=headers)
 ```
 
 ## Roadmap
