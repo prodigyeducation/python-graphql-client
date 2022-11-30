@@ -109,7 +109,6 @@ class GraphqlClient:
                 elif response_body["type"] == "ka":
                     self.logger.info("the server sent a keep alive message")
                 elif response_body["type"] == "complete":
-                    await websocket.close()
                     return
                 else:
                     handle(response_body["payload"])
