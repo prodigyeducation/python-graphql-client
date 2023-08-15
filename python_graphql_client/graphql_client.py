@@ -11,12 +11,16 @@ import websockets
 class GraphqlClient:
     """Class which represents the interface to make graphQL requests through."""
 
-    def __init__(self, endpoint: str, headers: dict = {}, **kwargs: Any):
+    def __init__(self, endpoint: str, headers: dict = {}, session=None, **kwargs: Any):
         """Insantiate the client."""
         self.logger = logging.getLogger(__name__)
         self.endpoint = endpoint
         self.headers = headers
         self.options = kwargs
+        self.session = session
+        if self.session is None:
+            self.session = requests.Session()
+
 
     def __request_body(
         self, query: str, variables: dict = None, operation_name: str = None
@@ -44,7 +48,7 @@ class GraphqlClient:
             query=query, variables=variables, operation_name=operation_name
         )
 
-        result = requests.post(
+        result = self.session.post(
             self.endpoint,
             json=request_body,
             headers={**self.headers, **headers},
