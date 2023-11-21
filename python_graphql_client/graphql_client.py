@@ -96,12 +96,12 @@ class GraphqlClient:
             query=query, variables=variables, operation_name=operation_name
         )
         request_message = json.dumps(
-            {"type": "start", "id": "1", "payload": request_body}
+            {"type": "subscribe", "id": "1", "payload": request_body}
         )
 
         async with websockets.connect(
             self.endpoint,
-            subprotocols=["graphql-ws"],
+            subprotocols=["graphql-transport-ws"],
             extra_headers={**self.headers, **headers},
         ) as websocket:
             await websocket.send(connection_init_message)
