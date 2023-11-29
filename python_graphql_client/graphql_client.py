@@ -37,6 +37,7 @@ class GraphqlClient:
         variables: dict = None,
         operation_name: str = None,
         headers: dict = {},
+        riase_for_status: bool = True,
         **kwargs: Any,
     ):
         """Make synchronous request to graphQL server."""
@@ -50,8 +51,10 @@ class GraphqlClient:
             headers={**self.headers, **headers},
             **{**self.options, **kwargs},
         )
+        
+        if riase_for_status:
+            result.raise_for_status()
 
-        result.raise_for_status()
         return result.json()
 
     async def execute_async(
