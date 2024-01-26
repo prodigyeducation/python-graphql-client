@@ -1,4 +1,5 @@
 """Module containing graphQL client."""
+
 import json
 import logging
 from typing import Any, Callable
@@ -60,6 +61,7 @@ class GraphqlClient:
         variables: dict = None,
         operation_name: str = None,
         headers: dict = {},
+        **kwargs: Any,
     ):
         """Make asynchronous request to graphQL server."""
         request_body = self.__request_body(
@@ -71,6 +73,7 @@ class GraphqlClient:
                 self.endpoint,
                 json=request_body,
                 headers={**self.headers, **headers},
+                **{**self.options, **kwargs},
             ) as response:
                 return await response.json()
 
