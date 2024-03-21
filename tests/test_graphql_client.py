@@ -145,6 +145,120 @@ class TestGraphqlClientExecute(TestCase):
         )
 
 
+class TestGraphqlClientExecuteSession(TestCase):
+    """Test cases for synchronous graphql request function using a Session object."""
+
+    def test_execute_basic_query(self):
+        """Sends a graphql POST request to an endpoint."""
+        session_mock = MagicMock()
+        client = GraphqlClient(endpoint="http://www.test-api.com/")
+        query = """
+        {
+            tests {
+                status
+            }
+        }
+        """
+        client.execute(query, session=session_mock)
+
+        session_mock.post.assert_called_once_with(
+            "http://www.test-api.com/", json={"query": query}, headers={}
+        )
+
+    def test_execute_query_with_variables(self):
+        """Sends a graphql POST request with variables."""
+        session_mock = MagicMock()
+        client = GraphqlClient(endpoint="http://www.test-api.com/")
+        query = ""
+        variables = {"id": 123}
+        client.execute(query, variables, session=session_mock)
+
+        session_mock.post.assert_called_once_with(
+            "http://www.test-api.com/",
+            json={"query": query, "variables": variables},
+            headers={},
+        )
+
+    def test_raises_http_errors_as_exceptions(self):
+        """Raises an exception if an http error code is returned in the response."""
+        session_mock = MagicMock()
+        response_mock = MagicMock()
+        response_mock.raise_for_status.side_effect = HTTPError()
+        session_mock.post.return_value = response_mock
+
+        client = GraphqlClient(endpoint="http://www.test-api.com/")
+
+        with self.assertRaises(HTTPError):
+            client.execute(query="", session=session_mock)
+
+    def test_execute_query_with_headers(self):
+        """Sends a graphql POST request with headers."""
+        session_mock = MagicMock()
+        client = GraphqlClient(
+            endpoint="http://www.test-api.com/",
+            headers={"Content-Type": "application/json", "Existing": "123"},
+        )
+        query = ""
+        client.execute(query=query,
+                       headers={"Existing": "456", "New": "foo"},
+                       session=session_mock)
+
+        session_mock.post.assert_called_once_with(
+            "http://www.test-api.com/",
+            json={"query": query},
+            headers={
+                "Content-Type": "application/json",
+                "Existing": "456",
+                "New": "foo",
+            },
+        )
+
+    def test_execute_query_with_options(self):
+        """Sends a graphql POST request with headers."""
+        session_mock = MagicMock()
+        auth = HTTPBasicAuth("fake@example.com", "not_a_real_password")
+        client = GraphqlClient(
+            endpoint="http://www.test-api.com/",
+            auth=auth,
+        )
+        query = ""
+        client.execute(query=query, verify=False, session=session_mock)
+
+        session_mock.post.assert_called_once_with(
+            "http://www.test-api.com/",
+            json={"query": query},
+            headers={},
+            auth=HTTPBasicAuth("fake@example.com", "not_a_real_password"),
+            verify=False,
+        )
+
+    def test_execute_query_with_operation_name(self):
+        """Sends a graphql POST request with the operationName key set."""
+        session_mock = MagicMock()
+        client = GraphqlClient(endpoint="http://www.test-api.com/")
+        query = """
+            query firstQuery {
+                test {
+                    status
+                }
+            }
+
+            query secondQuery {
+                test {
+                    status
+                }
+            }
+        """
+        operation_name = "firstQuery"
+        client.execute(query, operation_name=operation_name, session=session_mock)
+
+        session_mock.post.assert_called_once_with(
+            "http://www.test-api.com/",
+            json={"query": query, "operationName": operation_name},
+            headers={},
+        )
+
+
 class TestGraphqlClientExecuteAsync(IsolatedAsyncioTestCase):
     """Test cases for the asynchronous graphQL request function."""
 
