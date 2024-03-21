@@ -5,8 +5,8 @@ from typing import Any, Callable
 
 import aiohttp
 import requests
-from requests import Session
 import websockets
+from requests import Session
 
 
 class GraphqlClient:
@@ -46,10 +46,11 @@ class GraphqlClient:
             query=query, variables=variables, operation_name=operation_name
         )
 
-        if session is None:
-            session = Session()
+        post_method = requests.post
+        if session:
+            post_method = session.post
 
-        result = session.post(
+        result = post_method(
             self.endpoint,
             json=request_body,
             headers={**self.headers, **headers},
