@@ -199,9 +199,9 @@ class TestGraphqlClientExecuteSession(TestCase):
             headers={"Content-Type": "application/json", "Existing": "123"},
         )
         query = ""
-        client.execute(query=query,
-                       headers={"Existing": "456", "New": "foo"},
-                       session=session_mock)
+        client.execute(
+            query=query, headers={"Existing": "456", "New": "foo"}, session=session_mock
+        )
 
         session_mock.post.assert_called_once_with(
             "http://www.test-api.com/",
