@@ -72,8 +72,7 @@ class GraphqlClient:
             async with session.post(
                 self.endpoint,
                 json=request_body,
-                headers={**self.headers, **headers},
-                **{**self.options, **kwargs},
+                **{**self.options, **kwargs, "headers": {**self.headers, **headers}},
             ) as response:
                 return await response.json()
 

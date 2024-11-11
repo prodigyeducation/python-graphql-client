@@ -172,6 +172,34 @@ class TestGraphqlClientExecuteAsync(IsolatedAsyncioTestCase):
         )
 
     @patch("aiohttp.ClientSession.post")
+    async def test_execute_basic_query_with_aiohttp_parameters(self, mock_post):
+        """Sends a graphql POST request to an endpoint."""
+        mock_post.return_value.__aenter__.return_value.json = AsyncMock()
+        client = GraphqlClient(endpoint="http://www.test-api.com/")
+        query = """
+            {
+                tests {
+                    status
+                }
+            }
+            """
+
+        await client.execute_async(
+            query,
+            timeout=10,
+            verify_ssl=False,
+            headers={"Authorization": "Bearer token"},
+        )
+
+        mock_post.assert_called_once_with(
+            "http://www.test-api.com/",
+            json={"query": query},
+            headers={"Authorization": "Bearer token"},
+            timeout=10,
+            verify_ssl=False,
+        )
+
+    @patch("aiohttp.ClientSession.post")
     async def test_execute_query_with_variables(self, mock_post):
         """Sends a graphql POST request with variables."""
         mock_post.return_value.__aenter__.return_value.json = AsyncMock()
