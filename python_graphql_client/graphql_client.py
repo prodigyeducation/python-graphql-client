@@ -1,4 +1,5 @@
 """Module containing graphQL client."""
+
 import json
 import logging
 from typing import Any, Callable
@@ -60,6 +61,7 @@ class GraphqlClient:
         variables: dict = None,
         operation_name: str = None,
         headers: dict = {},
+        **kwargs: Any,
     ):
         """Make asynchronous request to graphQL server."""
         request_body = self.__request_body(
@@ -69,8 +71,12 @@ class GraphqlClient:
         async with aiohttp.ClientSession() as session:
             async with session.post(
                 self.endpoint,
-                json=request_body,
-                headers={**self.headers, **headers},
+                **{
+                    **self.options,
+                    **kwargs,
+                    "headers": {**self.headers, **headers},
+                    "json": request_body,
+                },
             ) as response:
                 return await response.json()
 
