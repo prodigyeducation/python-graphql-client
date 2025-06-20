@@ -7,6 +7,7 @@ from typing import Any, Callable
 import aiohttp
 import requests
 import websockets
+from requests import Session
 
 
 class GraphqlClient:
@@ -38,6 +39,7 @@ class GraphqlClient:
         variables: dict = None,
         operation_name: str = None,
         headers: dict = {},
+        session: Session = None,
         **kwargs: Any,
     ):
         """Make synchronous request to graphQL server."""
@@ -45,7 +47,11 @@ class GraphqlClient:
             query=query, variables=variables, operation_name=operation_name
         )
 
-        result = requests.post(
+        post_method = requests.post
+        if session:
+            post_method = session.post
+
+        result = post_method(
             self.endpoint,
             json=request_body,
             headers={**self.headers, **headers},
