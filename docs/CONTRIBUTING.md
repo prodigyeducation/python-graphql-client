@@ -74,3 +74,14 @@ Take a peek at the [Code of Conduct](CODE_OF_CONDUCT.md) document for more infor
 # Where can I ask for help?
 
 This project is pretty new, so for now feel free to add an issue into the project. Otherwise you can always email us at opensource@prodigygame.com for questions. Maybe one day we'll create a slack group for this project.
+
+# Releases
+
+1. `make gen-changelog`
+2. Update the `setup.py` with the new release version (eg; `version="0.4.6"`)
+3. Draft a new [release](https://github.com/prodigyeducation/python-graphql-client/releases)
+    1. The release title and tag should be the following format that corresponds with the `version` in `setup.py`; `vN.N.N`
+    2. Generate Release Notes
+4. Set as a pre-release and review
+5. Set as the latest release and publish
+6. Verify the github action for release worked [pythonpublish](https://github.com/prodigyeducation/python-graphql-client/actions/workflows/pythonpublish.yml)

@@ -1,3 +1,17 @@
+## v0.4.6
+
+- update-changelog 
+
+## v0.4.5
+
+- patch/python publish in #59
+
+## v0.4.4
+
+- Update README to document custom headers in #51
+- updating pre-commit in #56
+- add passing options in #57
+
 ## v0.4.3
 
 - Stoping Using Root Logger with One-off Logging Setup #44
