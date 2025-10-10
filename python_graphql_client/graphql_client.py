@@ -78,7 +78,13 @@ class GraphqlClient:
                     "json": request_body,
                 },
             ) as response:
-                return await response.json()
+                try:
+                    return await response.json()
+                except JSONDecodeError as error:
+                    result = await response.text()
+                    raise Exception(
+                            f"Unknown error while requesting {response.url}. {response.status} - {result}"
+                    ) from error
 
     async def subscribe(
         self,
